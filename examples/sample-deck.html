@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>집에서 물 아끼는 법</title>
+<style>
+html,body{margin:0;height:100%;background:#111;overflow:hidden;font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif}
+#stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:center}
+.slide{position:absolute;inset:0;display:none;background:#fff;color:#14202b;padding:90px 110px;box-sizing:border-box}
+.slide.on{display:block}
+.slide h2.title{font-size:96px;margin:160px 0 24px;letter-spacing:-.03em}
+.slide h2{font-size:60px;margin:0 0 48px;letter-spacing:-.02em}
+.slide p,.slide li{font-size:34px;line-height:1.6}
+.slide ul{margin:0;padding-left:1.2em}
+.lead{color:#4b6478}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.two img{width:100%;border-radius:12px}
+.big{font-size:150px;font-weight:800;color:#2f6db0;line-height:1}
+.pg{position:absolute;right:110px;bottom:60px;font-size:22px;color:#8a9aa8}
+aside.notes{display:none}
+.nav{position:fixed;right:16px;bottom:16px;display:flex;gap:8px}
+.nav button{font:600 15px sans-serif;padding:8px 14px;border:0;background:#2a2e36;color:#fff;cursor:pointer}
+#note-box{position:fixed;left:16px;bottom:16px;max-width:560px;padding:16px 20px;background:#fff;font:18px/1.6 sans-serif;display:none}
+#note-box.show{display:block}
+</style>
+</head>
+<body>
+<div id="stage">
+<section class="slide">
+  <h2 class="title">집에서 물 아끼는 법</h2>
+  <p class="lead">오늘부터 할 수 있는 세 가지</p>
+  <div class="pg">1 / 4</div>
+  <aside class="notes" data-time="10초"><p>오늘은 집에서 바로 할 수 있는 물 절약 방법 세 가지를 소개합니다.</p></aside>
+</section>
+<section class="slide">
+  <h2>하루에 쓰는 물</h2>
+  <div class="two">
+    <div><div class="big">280L</div><p>한 사람이 하루에 쓰는 물의 양(예시 값)</p></div>
+    <img src="img/drops.png" alt="물방울 그림">
+  </div>
+  <div class="pg">2 / 4</div>
+  <aside class="notes" data-time="20초"><p>숫자는 예시입니다. 실제 발표에서는 지역 통계로 바꿔 쓰세요.</p><p>생각보다 많은 물을 매일 쓰고 있습니다.</p></aside>
+</section>
+<section class="slide">
+  <h2>바로 할 수 있는 것</h2>
+  <ul>
+    <li>양치할 때 컵 쓰기</li>
+    <li>샤워 시간 2분 줄이기</li>
+    <li>세탁기는 모아서 한 번에 돌리기</li>
+  </ul>
+  <div class="pg">3 / 4</div>
+  <aside class="notes" data-time="30초"><p>세 가지 모두 도구 없이 오늘 바로 할 수 있습니다.</p></aside>
+</section>
+<section class="slide">
+  <h2>정리</h2>
+  <p>작은 습관 세 가지로 시작해 보세요.</p>
+  <div class="pg">4 / 4</div>
+  <aside class="notes" data-time="10초"><p>들어 주셔서 감사합니다.</p></aside>
+</section>
+</div>
+<div class="nav"><button id="prev">◀</button><button id="next">▶</button><button id="notes-btn">노트 (N)</button></div>
+<div id="note-box"></div>
+<script>
+(function(){
+  var s=[].slice.call(document.querySelectorAll('.slide')),i=0,st=document.getElementById('stage'),box=document.getElementById('note-box');
+  function fit(){var k=Math.min(innerWidth/1600,innerHeight/900);st.style.transform='translate(-50%,-50%) scale('+k+')';}
+  function note(){var n=s[i].querySelector('aside.notes');box.textContent=n?n.textContent.trim():'';}
+  function go(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach(function(e,j){e.classList.toggle('on',j===i)});note();}
+  document.getElementById('prev').onclick=function(){go(i-1)};
+  document.getElementById('next').onclick=function(){go(i+1)};
+  document.getElementById('notes-btn').onclick=function(){box.classList.toggle('show')};
+  addEventListener('keydown',function(e){if(e.key==='ArrowRight')go(i+1);if(e.key==='ArrowLeft')go(i-1);if(e.key==='n'||e.key==='N')box.classList.toggle('show');});
+  addEventListener('resize',fit);fit();go(0);
+})();
+</script>
+</body>
+</html>
