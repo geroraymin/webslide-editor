@@ -115,7 +115,9 @@
   function candidateElements(root=active()) {
     if (!root) return [];
     const textSelector='h1,h2,h3,h4,h5,h6,p,span,small,strong,b,em,i,u,a,button,li,dt,dd,figcaption,blockquote';
-    const directText=[...root.querySelectorAll('*')].filter(e=>![...e.children].length&&[...e.childNodes].some(n=>n.nodeType===3&&n.textContent.trim()));
+    // 글자를 직접 가진 요소. 강조 글자(em·b 등)가 섞인 줄도 줄 전체를 하나의 글자 객체로 잡는다.
+    const inline=/^(EM|B|STRONG|I|U|S|SMALL|SPAN|A|BR|SUP|SUB|MARK|CODE)$/;
+    const directText=[...root.querySelectorAll('*')].filter(e=>[...e.childNodes].some(n=>n.nodeType===3&&n.textContent.trim())&&[...e.children].every(c=>inline.test(c.tagName)));
     const text=[...new Set([...root.querySelectorAll(textSelector),...directText])].filter(e=>e.getClientRects().length&&!e.closest('.ed-layout-placeholder'));
     const base=[...text,...root.querySelectorAll('table,img,svg,hr,.ed-decoration,.blank-media,.ed-object,.video-stage,.ed-cell-text')];
     const boxes=[...root.querySelectorAll('div,article,section,figure,ol,ul,header,span')].filter(looksLikeBox);
