@@ -12,7 +12,9 @@ python -m http.server 8000
 # 브라우저에서 http://127.0.0.1:8000/ 열기
 ```
 
-GitHub Pages에 올리면 주소만으로 쓸 수 있습니다. 처음 열면 기본 6장 자료가 나옵니다.
+설치 없이 바로 쓰기: **https://geroraymin.github.io/webslide-editor/**
+
+처음 열면 기본 6장 자료가 나옵니다.
 
 ## 열 수 있는 자료
 
@@ -71,7 +73,7 @@ python tests/check_foreign_deck.py examples sample-deck.html
 
 ## 라이선스
 
-정해지지 않았습니다.
+MIT 라이선스입니다. 누구나 쓰고, 고치고, 다시 배포할 수 있습니다. 전문은 `LICENSE`에 있습니다. 글꼴은 위의 OFL을 따릅니다.
 
 ---
 
@@ -81,4 +83,6 @@ A browser-based editor for HTML slide decks. Click to select, double-click to ed
 
 - Open a deck by file, by folder, or by drag and drop. Any deck whose slides are `<section class="slide">` elements works.
 - The deck's own scripts are not executed while editing. When you save to HTML, the original page shell and scripts are put back, so the deck's navigation, speaker notes and animations keep working.
+- Try it online: https://geroraymin.github.io/webslide-editor/
+- MIT License. The bundled Pretendard font is under the SIL OFL 1.1.
 - Serve the folder with any static server (for example `python -m http.server`). Opening via `file://` does not work.
