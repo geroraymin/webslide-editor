@@ -35,6 +35,19 @@ try:
         page.locator('#undo').click(); page.wait_for_timeout(150)
         check(f'실행 취소 한 번 → 원래 두께 {bw()}', bw() == '2px')
         page.locator('#redo').click(); page.wait_for_timeout(150)
+        # 1-2) 브라우저 확대(110% 등)에서는 1px 선이 0.909px로 읽힌다. 그 상태에서 화살표로 올려도 커져야 한다 (r26 사용자 신고)
+        fr.evaluate("""()=>{const g=window.getComputedStyle.bind(window);window.getComputedStyle=(e,...r)=>{const s=g(e,...r);if(!e.classList?.contains('ed-box'))return s;
+          return new Proxy(s,{get(t,k){const v=t[k];if(typeof k==='string'&&/^border(Top|Right|Bottom|Left)Width$/.test(k)&&parseFloat(v)>0)return (parseFloat(v)/1.1).toFixed(6)+'px';return typeof v==='function'?v.bind(t):v;}});};}""")
+        box.click(position={'x': 2, 'y': 2}); page.wait_for_timeout(150)
+        page.locator('#graphic-width').fill('1'); page.locator('#graphic-width').press('Tab'); page.wait_for_timeout(150)
+        box.click(position={'x': 2, 'y': 2}); page.wait_for_timeout(150)
+        shown = page.locator('#graphic-width').input_value()
+        check(f'확대 화면에서 1px 선 → 칸에 1로 표시 ({shown})', shown == '1')
+        page.locator('#graphic-width').click()
+        for _ in range(5): page.keyboard.press('ArrowUp'); page.wait_for_timeout(60)
+        st = box.evaluate("e=>e.style.borderTopWidth")
+        check(f'확대 화면에서 화살표 5번 → 6px ({st}, 칸 {page.locator("#graphic-width").input_value()})', st == '6px')
+        page.locator('#graphic-width').press('Tab'); page.wait_for_timeout(100)
         # 2) 틀 안에 글자 두 개 넣고, 틀 안쪽에서 끌어 범위 선택 → 함께 이동
         fr.evaluate("""()=>{const s=document.querySelector('.slide.on');const b=[...s.querySelectorAll('.ed-box')].pop();[...s.children].forEach(c=>{if(c!==b)c.remove();});
           Object.assign(b.style,{left:'300px',top:'250px',width:'700px',height:'400px',translate:'0px 0px'});b.dataset.edX='0';b.dataset.edY='0';

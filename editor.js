@@ -507,7 +507,8 @@
     $('table-properties').hidden=count>1||!selectedTable();
     const graphic=count===1&&!isPhoto(selected)&&(selected?.matches('svg,hr,.ed-line')||boxShape(selected));
     $('graphic-properties').hidden=!graphic;
-    if(graphic){const s=frame.contentWindow.getComputedStyle(selected),edges=selected.dataset.edLineSides?.split(',')||['Top','Right','Bottom','Left'].filter(side=>parseFloat(s['border'+side+'Width'])>0);$('graphic-color').value=rgbHex(edges.length?s['border'+edges[0]+'Color']:s.stroke==='none'?s.color:s.stroke);$('graphic-width').value=parseFloat(edges.length?s['border'+edges[0]+'Width']:s.strokeWidth)||0;}
+    if(graphic){const s=frame.contentWindow.getComputedStyle(selected),edges=selected.dataset.edLineSides?.split(',')||['Top','Right','Bottom','Left'].filter(side=>parseFloat(s['border'+side+'Width'])>0);$('graphic-color').value=rgbHex(edges.length?s['border'+edges[0]+'Color']:s.stroke==='none'?s.color:s.stroke);if(document.activeElement!==$('graphic-width')){const own=parseFloat(edges.length?selected.style['border'+edges[0]+'Width']:selected.style.strokeWidth),seen=parseFloat(edges.length?s['border'+edges[0]+'Width']:s.strokeWidth)||0;$('graphic-width').value=Number.isFinite(own)?own:seen>0?Math.max(1,Math.round(seen)):0;}}
+    // 선 두께 표시 (r26): 브라우저 확대·윈도우 배율에서는 1px 선이 0.909px처럼 읽힌다. 그 값을 다시 쓰면 화살표로 올려도 1로 되돌아가므로, 지정한 두께를 먼저 쓰고 없으면 반올림한다. 입력 중에는 덮어쓰지 않는다.
     $('media-properties').hidden=count!==1 || !['이미지','영상','빈 영역'].includes(kind(selected));
     $('image-tools').hidden=count!==1||!isPhoto(selected);
     $('change-video').hidden=!selected || !['영상','빈 영역'].includes(kind(selected));
