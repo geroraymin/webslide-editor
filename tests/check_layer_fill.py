@@ -55,7 +55,7 @@ try:
         page.locator('#project-file').set_input_files(str(path)); page.locator('#confirm-yes').click(); page.wait_for_timeout(600)
         st2 = page.frames[1].locator('.slide.on .ed-box').nth(1).evaluate("e=>{const s=getComputedStyle(e);return [s.backgroundColor,s.borderTopWidth]}")
         check(f'저장 후 다시 열어도 유지 {st2}', st2[0] in ('rgba(0, 0, 0, 0)', 'transparent') and st2[1] == '5px')
-        page.frames[1].locator('.slide.on .ed-box').nth(1).click(position={'x': 10, 'y': 10}); page.wait_for_timeout(150)
+        page.frames[1].locator('.slide.on .ed-box').nth(1).click(position={'x': 3, 'y': 3}); page.wait_for_timeout(150)  # r25: 채우기 없는 틀은 테두리 근처를 눌러야 잡힌다
         check('다시 열면 채우기 없음 체크 표시', page.locator('#fill-none').is_checked())
         page.locator('#fill-none').uncheck(); page.wait_for_timeout(150)
         check('채우기 없음 해제 → 배경 다시 채움', page.frames[1].locator('.slide.on .ed-box').nth(1).evaluate("e=>getComputedStyle(e).backgroundColor") not in ('rgba(0, 0, 0, 0)', 'transparent'))
